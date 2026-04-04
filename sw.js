@@ -1,5 +1,5 @@
 // ============================================================
-//  SW.JS — Service Worker du Hub ESAT
+//  SW.JS — Service Worker de OLYN-WANE
 //  Cache uniquement les fichiers du hub lui-même
 //  Les apps externes gèrent leur propre cache
 // ============================================================
