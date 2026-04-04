@@ -29,9 +29,8 @@ const DOM = {
 //  INITIALISATION
 // ===========================================================
 async function init() {
-  // Mise à jour des textes depuis config
-  document.getElementById('hub-title').innerHTML = HUB_CONFIG.name + ' <span id="hub-version">Version 1.0 — ©2025 LEROY Aurélien — Tous Droits Réservés</span>';
-  document.getElementById('hub-subtitle').textContent = HUB_CONFIG.subtitle;
+  document.getElementById('hub-title').textContent    = HUB_CONFIG.name;
+  document.getElementById('hub-subtitle').innerHTML    = HUB_CONFIG.subtitle + '<br><span id="hub-version">Version 1.0.2 — ©2026 LEROY Aurélien — Tous Droits Réservés</span>';
   document.getElementById('tabs-max').textContent     = HUB_CONFIG.maxTabs;
 
   buildCategories();
