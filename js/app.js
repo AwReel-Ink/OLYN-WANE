@@ -1,5 +1,5 @@
 // ============================================================
-//  APP.JS — Logique principale du Hub ESAT
+//  APP.JS — Logique principale de OLYN-WANE
 // ============================================================
 
 'use strict';
@@ -30,7 +30,7 @@ const DOM = {
 // ===========================================================
 async function init() {
   // Mise à jour des textes depuis config
-  document.getElementById('hub-title').textContent    = HUB_CONFIG.name;
+  document.getElementById('hub-title').innerHTML = HUB_CONFIG.name + ' <span id="hub-version">Version 1.0 — ©2025 LEROY Aurélien — Tous Droits Réservés</span>';
   document.getElementById('hub-subtitle').textContent = HUB_CONFIG.subtitle;
   document.getElementById('tabs-max').textContent     = HUB_CONFIG.maxTabs;
 
