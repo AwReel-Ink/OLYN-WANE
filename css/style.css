@@ -1,642 +1,432 @@
-/* ============================================================
-   STYLE.CSS — OLYN-WANE
-   Design sobre, lisible, accessible tous âges
-============================================================ */
+// ============================================================
+//  APP.JS — Logique principale de OLYN-WANE
+// ============================================================
 
-/* --- RESET & BASE ---------------------------------------- */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+'use strict';
+
+// ---- État de l'application --------------------------------
+const state = {
+  openTabs: [],        // [{ id, name, icon, url, iframeEl, tabEl }]
+  activeTabId: null,   // id de l'onglet actif
+  currentFilter: 'all' // filtre catégorie actif
+};
+
+// ---- Références DOM ---------------------------------------
+const DOM = {
+  homeScreen:      () => document.getElementById('home-screen'),
+  workspace:       () => document.getElementById('workspace'),
+  appsGrid:        () => document.getElementById('apps-grid'),
+  categoriesNav:   () => document.getElementById('categories-nav'),
+  tabsList:        () => document.getElementById('tabs-list'),
+  tabsCount:       () => document.getElementById('tabs-count'),
+  iframesContainer:() => document.getElementById('iframes-container'),
+  modalOverlay:    () => document.getElementById('modal-overlay'),
+  tabHomeBtn:      () => document.getElementById('tab-home-btn'),
+  modalClose:      () => document.getElementById('modal-close'),
+};
+
+// ===========================================================
+//  INITIALISATION
+// ===========================================================
+async function init() {
+  document.getElementById('hub-title').textContent    = HUB_CONFIG.name;
+  document.getElementById('hub-subtitle').innerHTML    = HUB_CONFIG.subtitle + '<br><span id="hub-version">Version 1.0.2 — ©2026 LEROY Aurélien — Tous Droits Réservés</span>';
+  document.getElementById('tabs-max').textContent     = HUB_CONFIG.maxTabs;
+
+  buildCategories();
+  buildAppsGrid('all');
+  bindEvents();
+
+  // Préchargement silencieux de toutes les icônes en arrière-plan
+  // (non bloquant → l'interface s'affiche immédiatement)
+  preloadAllIcons();
+
+  // Restaurer les onglets de la session précédente
+  restoreSession();
 }
 
-:root {
-  --bg-dark:       #1a1a2e;
-  --bg-panel:      #16213e;
-  --bg-card:       #0f3460;
-  --accent:        #e94560;
-  --text-primary:  #f0f0f0;
-  --text-secondary:#a0a0b0;
-  --border:        #2a2a4a;
-  --tab-active:    #e94560;
-  --tab-bg:        #16213e;
-  --tab-hover:     #0f3460;
-  --radius:        12px;
-  --radius-sm:     8px;
-  --shadow:        0 4px 20px rgba(0,0,0,0.4);
-  --font:          'Segoe UI', system-ui, -apple-system, sans-serif;
-  --transition:    0.2s ease;
-  --header-h:      64px;
-  --tabs-bar-h:    52px;
+// ===========================================================
+//  CONSTRUCTION DES CATÉGORIES
+// ===========================================================
+function buildCategories() {
+  const nav = DOM.categoriesNav();
+  nav.innerHTML = ''; // reset
+
+  // Bouton "Toutes" en premier
+  const btnAll = document.createElement('button');
+  btnAll.className = 'cat-btn active';
+  btnAll.dataset.cat = 'all';
+  btnAll.innerHTML = '🧩 Toutes';
+  btnAll.addEventListener('click', () => filterByCategory('all', btnAll));
+  nav.appendChild(btnAll);
+
+  // Reste des catégories
+  CATEGORIES.forEach(cat => {
+    const hasApps = APPS.some(app => app.categories.includes(cat.id));
+    if (!hasApps) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.dataset.cat = cat.id;
+    btn.innerHTML = `<span>${cat.icon}</span> ${cat.label}`;
+    btn.addEventListener('click', () => filterByCategory(cat.id, btn));
+    nav.appendChild(btn);
+  });
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  font-family: var(--font);
-  background: var(--bg-dark);
-  color: var(--text-primary);
-  font-size: 16px;
-  -webkit-tap-highlight-color: transparent;
+// ===========================================================
+//  FILTRAGE PAR CATÉGORIE
+// ===========================================================
+function filterByCategory(catId, clickedBtn) {
+  state.currentFilter = catId;
+
+  // Mise à jour des boutons actifs
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  clickedBtn.classList.add('active');
+
+  buildAppsGrid(catId);
 }
 
-.hidden { display: none !important; }
+// ===========================================================
+//  CONSTRUCTION DE LA GRILLE D'APPS
+// ===========================================================
+function buildAppsGrid(catId) {
+  const grid = DOM.appsGrid();
+  grid.innerHTML = '';
 
-/* --- HOME SCREEN ----------------------------------------- */
-#home-screen {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
+  const filtered = catId === 'all'
+    ? APPS
+    : APPS.filter(app => app.categories.includes(catId));
 
-/* --- HEADER ---------------------------------------------- */
-#main-header {
-  height: var(--header-h);
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  flex-shrink: 0;
-  box-shadow: var(--shadow);
-}
-
-#header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-#hub-icon {
-  font-size: 32px;
-}
-
-#hub-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-#hub-subtitle {
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-}
-
-.header-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: background var(--transition);
-}
-.header-btn:hover {
-  background: var(--accent);
-}
-
-/* --- CATÉGORIES ------------------------------------------ */
-#categories-nav {
-  display: flex;
-  gap: 8px;
-  padding: 12px 20px;
-  overflow-x: auto;
-  flex-shrink: 0;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-
-#categories-nav::-webkit-scrollbar {
-  height: 4px;
-}
-#categories-nav::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-
-.cat-btn {
-  white-space: nowrap;
-  padding: 7px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.cat-btn:hover {
-  border-color: var(--accent);
-  color: var(--text-primary);
-}
-
-.cat-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  font-weight: 600;
-}
-
-/* --- GRILLE DES APPS ------------------------------------- */
-#apps-grid {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-  align-content: start;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-
-#apps-grid::-webkit-scrollbar { width: 6px; }
-#apps-grid::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-
-/* --- CARTE APPLICATION ----------------------------------- */
-.app-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px 16px 16px;
-  cursor: pointer;
-  transition: all var(--transition);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 8px;
-  position: relative;
-  overflow: visible;
-  user-select: none;
-}
-
-.app-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--card-color, var(--accent));
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-.app-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--card-color, var(--accent));
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-
-.app-card:active {
-  transform: translateY(-1px);
-}
-
-.app-card.already-open {
-  opacity: 0.6;
-  cursor: default;
-}
-.app-card.already-open:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* --- ICÔNE CARTE ----------------------------------------- */
-.app-card-icon {
-  width: 96px;
-  height: 96px;
-  min-width: 96px;
-  min-height: 96px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 12px;
-  margin-bottom: 4px;
-}
-
-.app-card-icon-img {
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-  border-radius: 12px;
-  display: block;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
-}
-
-.app-icon-emoji {
-  font-size: 2.4rem;
-  line-height: 1;
-  display: block;
-}
-
-/* Skeleton loader pendant le chargement de l'icône */
-.app-card-icon:empty::before {
-  content: '';
-  display: block;
-  width: 96px;
-  height: 96px;
-  border-radius: 12px;
-  background: linear-gradient(
-    90deg,
-    var(--border) 25%,
-    var(--bg-card) 50%,
-    var(--border) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite;
-}
-
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* --- TEXTES CARTE ---------------------------------------- */
-.app-card-name {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.3;
-}
-
-.app-card-desc {
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
-  flex: 1;
-}
-
-/* --- TAGS CARTE ------------------------------------------ */
-.app-card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 4px;
-  justify-content: center;
-}
-
-.app-tag {
-  font-size: 0.68rem;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-/* --- BADGE "OUVERT" -------------------------------------- */
-.app-card-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: var(--accent);
-  color: white;
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 10px;
-  letter-spacing: 0.05em;
-}
-
-/* --- ICÔNE ONGLET ---------------------------------------- */
-.tab-icon-img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  border-radius: 4px;
-  display: block;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-}
-
-/* --- WORKSPACE (onglets + iframes) ----------------------- */
-#workspace {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-/* --- BARRE D'ONGLETS ------------------------------------- */
-#tabs-bar {
-  height: var(--tabs-bar-h);
-  background: var(--bg-panel);
-  border-bottom: 2px solid var(--border);
-  display: flex;
-  align-items: stretch;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-#tab-home-btn {
-  flex-shrink: 0;
-  width: 52px;
-  background: var(--bg-dark);
-  border: none;
-  border-right: 1px solid var(--border);
-  color: var(--text-primary);
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: background var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#tab-home-btn:hover { background: var(--accent); }
-
-#tabs-list {
-  display: flex;
-  align-items: stretch;
-  flex: 1;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-#tabs-list::-webkit-scrollbar { display: none; }
-
-/* --- UN ONGLET ------------------------------------------- */
-.tab-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 14px;
-  min-width: 140px;
-  max-width: 200px;
-  border-right: 1px solid var(--border);
-  background: var(--tab-bg);
-  cursor: pointer;
-  transition: background var(--transition);
-  position: relative;
-  flex-shrink: 0;
-}
-
-.tab-item:hover { background: var(--tab-hover); }
-
-.tab-item.active {
-  background: var(--bg-dark);
-  border-bottom: 2px solid var(--tab-active);
-}
-
-.tab-icon { font-size: 1.1rem; flex-shrink: 0; }
-
-.tab-name {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-}
-
-.tab-close {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition);
-  line-height: 1;
-}
-.tab-close:hover {
-  background: var(--accent);
-  color: white;
-}
-
-/* Indicateur de chargement sur l'onglet */
-.tab-item.loading .tab-icon::after {
-  content: '';
-  display: inline-block;
-  width: 8px; height: 8px;
-  border: 2px solid var(--text-secondary);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-left: 4px;
-  vertical-align: middle;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-#tabs-counter {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  border-left: 1px solid var(--border);
-  background: var(--bg-dark);
-  white-space: nowrap;
-}
-
-#tabs-count { color: var(--accent); font-weight: 700; }
-
-/* --- CONTENEUR IFRAMES ----------------------------------- */
-#iframes-container {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  background: #fff;
-}
-
-.app-iframe {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  border: none;
-  background: #fff;
-  transition: opacity 0.15s ease;
-}
-
-.app-iframe.hidden-frame {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Overlay de chargement sur l'iframe */
-.iframe-loader {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: var(--bg-dark);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  z-index: 10;
-}
-
-.loader-spinner {
-  width: 48px; height: 48px;
-  border: 4px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-.loader-text {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-/* --- MODAL ----------------------------------------------- */
-#modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-}
-
-#modal-box {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 30px 24px;
-  max-width: 360px;
-  width: 100%;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-#modal-message {
-  font-size: 1rem;
-  color: var(--text-primary);
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-#modal-close {
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 10px 28px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity var(--transition);
-}
-#modal-close:hover { opacity: 0.85; }
-
-/* --- RESPONSIVE ------------------------------------------ */
-@media (max-width: 600px) {
-  #hub-subtitle { display: none; }
-  #hub-title { font-size: 1.1rem; }
-  #hub-icon { font-size: 26px; }
-
-  #apps-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    padding: 12px;
-    gap: 12px;
+  if (filtered.length === 0) {
+    grid.innerHTML = `<p style="color:var(--text-secondary);grid-column:1/-1;text-align:center;padding:40px;">
+      Aucune application dans cette catégorie.
+    </p>`;
+    return;
   }
 
-  .app-card { padding: 14px 12px; }
-  .app-card-icon { font-size: 1.8rem; }
-
-  .tab-item { min-width: 110px; }
-  .tab-name { font-size: 0.75rem; }
+  filtered.forEach(app => {
+    const card = createAppCard(app);
+    grid.appendChild(card);
+  });
 }
 
-@media (max-width: 380px) {
-  #apps-grid {
-    grid-template-columns: 1fr 1fr;
+// ===========================================================
+//  CRÉATION D'UNE CARTE APPLICATION
+// ===========================================================
+function createAppCard(app) {
+  const isOpen = state.openTabs.some(t => t.id === app.id);
+
+  const card = document.createElement('div');
+  card.className = `app-card${isOpen ? ' already-open' : ''}`;
+  card.dataset.appId = app.id;
+  card.style.setProperty('--card-color', app.color || 'var(--accent)');
+
+  // Tags catégories
+  const tagsHtml = app.categories.map(catId => {
+    const cat = CATEGORIES.find(c => c.id === catId);
+    if (!cat) return '';
+    return `<span class="app-tag" style="background:${cat.color}22;color:${cat.color};border:1px solid ${cat.color}44">
+      ${cat.icon} ${cat.label}
+    </span>`;
+  }).join('');
+
+  card.innerHTML = `
+    ${isOpen ? '<span class="app-card-badge">OUVERT</span>' : ''}
+    <div class="app-card-icon" data-icon-for="${app.id}">
+      <span class="app-icon-emoji">${app.iconFallback || '🔧'}</span>
+    </div>
+    <div class="app-card-name">${app.name}</div>
+    <div class="app-card-desc">${app.description}</div>
+    <div class="app-card-tags">${tagsHtml}</div>
+  `;
+
+  // Chargement asynchrone de l'icône sans bloquer le rendu de la carte
+  const iconContainer = card.querySelector(`[data-icon-for="${app.id}"]`);
+  applyIconToElement(app, iconContainer);
+
+  card.addEventListener('click', () => {
+    if (isOpen) {
+      switchToExistingTab(app.id);
+    } else {
+      openApp(app);
+    }
+  });
+
+  return card;
+}
+
+// ===========================================================
+//  OUVRIR UNE APPLICATION (créer onglet + iframe)
+// ===========================================================
+function openApp(app) {
+  // Vérification max onglets
+  if (state.openTabs.length >= HUB_CONFIG.maxTabs) {
+    showModal();
+    return;
+  }
+
+  // Création de l'iframe
+  const iframeWrapper = document.createElement('div');
+  iframeWrapper.style.cssText = 'position:absolute;inset:0;';
+  iframeWrapper.dataset.iframeFor = app.id;
+
+  // Loader pendant le chargement
+  const loader = document.createElement('div');
+  loader.className = 'iframe-loader';
+  loader.innerHTML = `
+    <div class="loader-spinner"></div>
+    <p class="loader-text">Chargement de ${app.name}…</p>
+  `;
+  iframeWrapper.appendChild(loader);
+
+  const iframe = document.createElement('iframe');
+  iframe.className = 'app-iframe hidden-frame';
+  iframe.src = app.url;
+  iframe.title = app.name;
+  iframe.setAttribute('allow', 'camera; microphone; geolocation');
+  iframe.setAttribute('loading', 'lazy');
+
+  // Retirer le loader quand l'iframe est chargée
+  iframe.addEventListener('load', () => {
+    loader.remove();
+    iframe.classList.remove('hidden-frame');
+  });
+
+  iframeWrapper.appendChild(iframe);
+  DOM.iframesContainer().appendChild(iframeWrapper);
+
+  // Création de l'onglet
+  const tabEl = createTabElement(app);
+  DOM.tabsList().appendChild(tabEl);
+
+  // Ajout à l'état
+  const tabData = {
+    id: app.id,
+    name: app.name,
+    icon: app.icon,
+    url: app.url,
+    iframeWrapper,
+    iframe,
+    tabEl
+  };
+  state.openTabs.push(tabData);
+
+  // Mettre à jour le compteur
+  updateTabsCounter();
+
+  // Basculer vers ce nouvel onglet
+  switchToTab(app.id);
+
+  // Afficher le workspace
+  showWorkspace();
+
+  // Mettre à jour la grille (badge "OUVERT")
+  buildAppsGrid(state.currentFilter);
+
+  // Sauvegarder la session
+  saveSession();
+}
+
+// ===========================================================
+//  CRÉATION D'UN ÉLÉMENT ONGLET
+// ===========================================================
+function createTabElement(app) {
+  const tab = document.createElement('div');
+  tab.className = 'tab-item loading';
+  tab.dataset.tabId = app.id;
+
+  tab.innerHTML = `
+    <span class="tab-icon" data-tab-icon-for="${app.id}">
+      <span class="app-icon-emoji" style="font-size:1rem">${app.iconFallback || '🔧'}</span>
+    </span>
+    <span class="tab-name">${app.name}</span>
+    <button class="tab-close" title="Fermer ${app.name}">✕</button>
+  `;
+
+  // Chargement asynchrone de l'icône dans l'onglet
+  const tabIconContainer = tab.querySelector(`[data-tab-icon-for="${app.id}"]`);
+  applyIconToElement(app, tabIconContainer, true); // true = mode "onglet" (taille réduite)
+
+  // Clic sur l'onglet = basculer
+  tab.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('tab-close')) {
+      switchToTab(app.id);
+    }
+  });
+
+  // Bouton fermer
+  tab.querySelector('.tab-close').addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeTab(app.id);
+  });
+
+  return tab;
+}
+
+// ===========================================================
+//  BASCULER VERS UN ONGLET
+// ===========================================================
+function switchToTab(tabId) {
+  state.activeTabId = tabId;
+
+  state.openTabs.forEach(tab => {
+    const isActive = tab.id === tabId;
+
+    // Afficher/masquer les iframes
+    tab.iframeWrapper.style.display = isActive ? 'block' : 'none';
+
+    // Activer/désactiver les onglets
+    tab.tabEl.classList.toggle('active', isActive);
+
+    // Retirer le "loading" si on bascule dessus
+    if (isActive) {
+      tab.tabEl.classList.remove('loading');
+      // Scroll pour rendre l'onglet visible
+      tab.tabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  });
+}
+
+// ===========================================================
+//  BASCULER VERS UN ONGLET DÉJÀ OUVERT (depuis l'accueil)
+// ===========================================================
+function switchToExistingTab(tabId) {
+  showWorkspace();
+  switchToTab(tabId);
+}
+
+// ===========================================================
+//  FERMER UN ONGLET
+// ===========================================================
+function closeTab(tabId) {
+  const idx = state.openTabs.findIndex(t => t.id === tabId);
+  if (idx === -1) return;
+
+  const tab = state.openTabs[idx];
+
+  // Supprimer l'iframe et l'onglet du DOM
+  tab.iframeWrapper.remove();
+  tab.tabEl.remove();
+
+  // Retirer de l'état
+  state.openTabs.splice(idx, 1);
+
+  updateTabsCounter();
+
+  // Si c'était l'onglet actif, basculer vers un autre ou revenir à l'accueil
+  if (state.activeTabId === tabId) {
+    if (state.openTabs.length > 0) {
+      const newIdx = Math.min(idx, state.openTabs.length - 1);
+      switchToTab(state.openTabs[newIdx].id);
+    } else {
+      showHome();
+    }
+  }
+
+  // Mettre à jour la grille
+  buildAppsGrid(state.currentFilter);
+  saveSession();
+}
+
+// ===========================================================
+//  AFFICHER WORKSPACE / ACCUEIL
+// ===========================================================
+function showWorkspace() {
+  DOM.homeScreen().classList.add('hidden');
+  DOM.workspace().classList.remove('hidden');
+}
+
+function showHome() {
+  state.activeTabId = null;
+  DOM.workspace().classList.add('hidden');
+  DOM.homeScreen().classList.remove('hidden');
+  buildAppsGrid(state.currentFilter);
+}
+
+// ===========================================================
+//  COMPTEUR D'ONGLETS
+// ===========================================================
+function updateTabsCounter() {
+  DOM.tabsCount().textContent = state.openTabs.length;
+  const counter = DOM.tabsCount();
+  counter.style.color = state.openTabs.length >= HUB_CONFIG.maxTabs
+    ? '#e94560'
+    : 'var(--accent)';
+}
+
+// ===========================================================
+//  MODAL MAX ONGLETS
+// ===========================================================
+function showModal() {
+  DOM.modalOverlay().classList.remove('hidden');
+}
+function hideModal() {
+  DOM.modalOverlay().classList.add('hidden');
+}
+
+// ===========================================================
+//  SAUVEGARDE / RESTAURATION DE SESSION
+//  (quels onglets étaient ouverts — pas les données des apps)
+// ===========================================================
+function saveSession() {
+  const sessionData = state.openTabs.map(t => ({
+    id: t.id,
+    activeTabId: state.activeTabId
+  }));
+  localStorage.setItem('hub_session', JSON.stringify(sessionData));
+}
+
+function restoreSession() {
+  try {
+    const raw = localStorage.getItem('hub_session');
+    if (!raw) return;
+    const sessionData = JSON.parse(raw);
+    if (!Array.isArray(sessionData) || sessionData.length === 0) return;
+
+    let lastActiveId = null;
+
+    sessionData.forEach(entry => {
+      const app = APPS.find(a => a.id === entry.id);
+      if (app) {
+        openApp(app);
+        lastActiveId = entry.activeTabId;
+      }
+    });
+
+    // Réactiver le bon onglet
+    if (lastActiveId && state.openTabs.some(t => t.id === lastActiveId)) {
+      setTimeout(() => switchToTab(lastActiveId), 100);
+    }
+  } catch (e) {
+    console.warn('Impossible de restaurer la session:', e);
+    localStorage.removeItem('hub_session');
   }
 }
-/* --- ICÔNES DYNAMIQUES ----------------------------------- */
 
-/* Conteneur icône dans la carte — centré en haut */
-.app-card-icon-img {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 12px auto;   /* centré horizontalement, espace sous l'icône */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+// ===========================================================
+//  ÉVÉNEMENTS GLOBAUX
+// ===========================================================
+function bindEvents() {
+  // Bouton 🏠 dans la barre d'onglets
+  DOM.tabHomeBtn().addEventListener('click', showHome);
+
+  // Fermer la modal
+  DOM.modalClose().addEventListener('click', hideModal);
+  DOM.modalOverlay().addEventListener('click', (e) => {
+    if (e.target === DOM.modalOverlay()) hideModal();
+  });
+
+  // Bouton accueil dans le header (si workspace visible)
+  document.getElementById('btn-home').addEventListener('click', showHome);
+
+  // Bouton "Toutes" statique → lui attacher son listener
+const btnAll = document.querySelector('.cat-btn[data-cat="all"]');
+btnAll.addEventListener('click', () => filterByCategory('all', btnAll));
+
 }
 
-/* Image récupérée depuis l'app */
-.app-icon-img {
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-  border-radius: 12px;
-  display: block;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
-}
-
-/* Emoji de fallback — même taille que l'image */
-.app-icon-emoji {
-  font-size: 2.6rem;
-  line-height: 1;
-  display: block;
-  text-align: center;
-}
-
-/* Image dans l'onglet */
-.tab-icon-img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  border-radius: 4px;
-  display: block;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-}
-
-/* Skeleton loader pendant le chargement */
-.app-card-icon:empty::before {
-  content: '';
-  display: block;
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  background: linear-gradient(
-    90deg,
-    var(--border) 25%,
-    var(--bg-card) 50%,
-    var(--border) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite;
-}
-
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-#hub-version {
-  font-size: 0.55rem;
-  font-weight: 400;
-  color: var(--text-secondary);
-  opacity: 1;
-  letter-spacing: 0.3px;
-}
-
-@media (max-width: 600px) {
-  #hub-version { display: none; }
-}
+// ===========================================================
+//  DÉMARRAGE
+// ===========================================================
+document.addEventListener('DOMContentLoaded', init);
