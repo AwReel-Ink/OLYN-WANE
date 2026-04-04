@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <meta name="description" content="Hub centralisé des applications ESAT" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>OLYN-WANE</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ======================================================
+       ÉCRAN D'ACCUEIL (affiché quand aucun onglet n'est actif)
+  ====================================================== -->
+  <div id="home-screen">
+
+    <!-- HEADER -->
+    <header id="main-header">
+      <div id="header-left">
+        <span id="hub-icon">🧩</span>
+        <div>
+          <h1 id="hub-title">OLYN-WANE</h1>
+          <p id="hub-subtitle">Accès rapide à vos applications</p>
+        </div>
+      </div>
+      <div id="header-right">
+        <button id="btn-home" title="Accueil" class="header-btn active">🏠</button>
+      </div>
+    </header>
+
+    <!-- CATÉGORIES -->
+    <nav id="categories-nav"></nav>
+
+    <!-- GRILLE DES APPS -->
+    <main id="apps-grid">
+      <!-- Générée dynamiquement par JS -->
+    </main>
+
+  </div><!-- /home-screen -->
+
+
+  <!-- ======================================================
+       ZONE DES ONGLETS + IFRAMES (apps ouvertes)
+  ====================================================== -->
+  <div id="workspace" class="hidden">
+
+    <!-- BARRE D'ONGLETS -->
+    <div id="tabs-bar">
+      <button id="tab-home-btn" title="Retour à l'accueil">🏠</button>
+      <div id="tabs-list">
+        <!-- Onglets générés dynamiquement -->
+      </div>
+      <div id="tabs-counter">
+        <span id="tabs-count">0</span>/<span id="tabs-max">5</span>
+      </div>
+    </div>
+
+    <!-- CONTENEUR DES IFRAMES -->
+    <div id="iframes-container">
+      <!-- Iframes générées dynamiquement -->
+    </div>
+
+  </div><!-- /workspace -->
+
+
+  <!-- ======================================================
+       MODAL — Avertissement max onglets
+  ====================================================== -->
+  <div id="modal-overlay" class="hidden">
+    <div id="modal-box">
+      <p id="modal-message">⚠️ Vous avez atteint le maximum de 5 applications ouvertes.<br>Fermez un onglet pour en ouvrir un nouveau.</p>
+      <button id="modal-close">Compris</button>
+    </div>
+  </div>
+
+
+  <!-- ======================================================
+       SCRIPTS
+  ====================================================== -->
+  <script src="js/config.js"></script>
+  <script src="js/icon-loader.js"></script>
+  <script src="js/app.js"></script>
+
+    <script>
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(r  => console.log('SW OK', r.scope))
+            .catch(e => console.warn('SW erreur:', e));
+        });
+    }
+    </script>
+
+</body>
+</html>

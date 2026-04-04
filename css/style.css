@@ -1,0 +1,630 @@
+/* ============================================================
+   STYLE.CSS — Hub ESAT
+   Design sobre, lisible, accessible tous âges
+============================================================ */
+
+/* --- RESET & BASE ---------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-dark:       #1a1a2e;
+  --bg-panel:      #16213e;
+  --bg-card:       #0f3460;
+  --accent:        #e94560;
+  --text-primary:  #f0f0f0;
+  --text-secondary:#a0a0b0;
+  --border:        #2a2a4a;
+  --tab-active:    #e94560;
+  --tab-bg:        #16213e;
+  --tab-hover:     #0f3460;
+  --radius:        12px;
+  --radius-sm:     8px;
+  --shadow:        0 4px 20px rgba(0,0,0,0.4);
+  --font:          'Segoe UI', system-ui, -apple-system, sans-serif;
+  --transition:    0.2s ease;
+  --header-h:      64px;
+  --tabs-bar-h:    52px;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hidden { display: none !important; }
+
+/* --- HOME SCREEN ----------------------------------------- */
+#home-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* --- HEADER ---------------------------------------------- */
+#main-header {
+  height: var(--header-h);
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+}
+
+#header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#hub-icon {
+  font-size: 32px;
+}
+
+#hub-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+#hub-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.header-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.header-btn:hover {
+  background: var(--accent);
+}
+
+/* --- CATÉGORIES ------------------------------------------ */
+#categories-nav {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#categories-nav::-webkit-scrollbar {
+  height: 4px;
+}
+#categories-nav::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.cat-btn {
+  white-space: nowrap;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cat-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.cat-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* --- GRILLE DES APPS ------------------------------------- */
+#apps-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  align-content: start;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#apps-grid::-webkit-scrollbar { width: 6px; }
+#apps-grid::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* --- CARTE APPLICATION ----------------------------------- */
+.app-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px 16px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  position: relative;
+  overflow: visible;
+  user-select: none;
+}
+
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-color, var(--accent));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.app-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--card-color, var(--accent));
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.app-card:active {
+  transform: translateY(-1px);
+}
+
+.app-card.already-open {
+  opacity: 0.6;
+  cursor: default;
+}
+.app-card.already-open:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- ICÔNE CARTE ----------------------------------------- */
+.app-card-icon {
+  width: 96px;
+  height: 96px;
+  min-width: 96px;
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 4px;
+}
+
+.app-card-icon-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+.app-icon-emoji {
+  font-size: 2.4rem;
+  line-height: 1;
+  display: block;
+}
+
+/* Skeleton loader pendant le chargement de l'icône */
+.app-card-icon:empty::before {
+  content: '';
+  display: block;
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--bg-card) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- TEXTES CARTE ---------------------------------------- */
+.app-card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.app-card-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* --- TAGS CARTE ------------------------------------------ */
+.app-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+  justify-content: center;
+}
+
+.app-tag {
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* --- BADGE "OUVERT" -------------------------------------- */
+.app-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.05em;
+}
+
+/* --- ICÔNE ONGLET ---------------------------------------- */
+.tab-icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+/* --- WORKSPACE (onglets + iframes) ----------------------- */
+#workspace {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* --- BARRE D'ONGLETS ------------------------------------- */
+#tabs-bar {
+  height: var(--tabs-bar-h);
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+#tab-home-btn {
+  flex-shrink: 0;
+  width: 52px;
+  background: var(--bg-dark);
+  border: none;
+  border-right: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tab-home-btn:hover { background: var(--accent); }
+
+#tabs-list {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#tabs-list::-webkit-scrollbar { display: none; }
+
+/* --- UN ONGLET ------------------------------------------- */
+.tab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  min-width: 140px;
+  max-width: 200px;
+  border-right: 1px solid var(--border);
+  background: var(--tab-bg);
+  cursor: pointer;
+  transition: background var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tab-item:hover { background: var(--tab-hover); }
+
+.tab-item.active {
+  background: var(--bg-dark);
+  border-bottom: 2px solid var(--tab-active);
+}
+
+.tab-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+.tab-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.tab-close {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  line-height: 1;
+}
+.tab-close:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Indicateur de chargement sur l'onglet */
+.tab-item.loading .tab-icon::after {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  border: 2px solid var(--text-secondary);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+#tabs-counter {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  border-left: 1px solid var(--border);
+  background: var(--bg-dark);
+  white-space: nowrap;
+}
+
+#tabs-count { color: var(--accent); font-weight: 700; }
+
+/* --- CONTENEUR IFRAMES ----------------------------------- */
+#iframes-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+
+.app-iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+  background: #fff;
+  transition: opacity 0.15s ease;
+}
+
+.app-iframe.hidden-frame {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Overlay de chargement sur l'iframe */
+.iframe-loader {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+.loader-spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loader-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* --- MODAL ----------------------------------------------- */
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+#modal-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+#modal-message {
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+#modal-close {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+#modal-close:hover { opacity: 0.85; }
+
+/* --- RESPONSIVE ------------------------------------------ */
+@media (max-width: 600px) {
+  #hub-subtitle { display: none; }
+  #hub-title { font-size: 1.1rem; }
+  #hub-icon { font-size: 26px; }
+
+  #apps-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .app-card { padding: 14px 12px; }
+  .app-card-icon { font-size: 1.8rem; }
+
+  .tab-item { min-width: 110px; }
+  .tab-name { font-size: 0.75rem; }
+}
+
+@media (max-width: 380px) {
+  #apps-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/* --- ICÔNES DYNAMIQUES ----------------------------------- */
+
+/* Conteneur icône dans la carte — centré en haut */
+.app-card-icon-img {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 12px auto;   /* centré horizontalement, espace sous l'icône */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Image récupérée depuis l'app */
+.app-icon-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+/* Emoji de fallback — même taille que l'image */
+.app-icon-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+  display: block;
+  text-align: center;
+}
+
+/* Image dans l'onglet */
+.tab-icon-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+/* Skeleton loader pendant le chargement */
+.app-card-icon:empty::before {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--bg-card) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
