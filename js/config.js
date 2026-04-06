@@ -79,6 +79,16 @@ const APPS = [
     categories: ["general", "espaces-verts", "mhl"],
     description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
   },
+  {
+    id: "liconote",
+    name: "LiCoNote",
+    url: "https://awreel-ink.github.io/Liconote/",
+    icon: null,
+    iconFallback: "📖",
+    color: "#59c2fc",
+    categories: ["general", "espaces-verts", "mhl","sous-traitance", "multi-service"],
+    description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
+  },
     {
     id: "energie_pile",
     name: "Energie_Pile",
@@ -90,3 +100,5 @@ const APPS = [
     description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
   }
 ];
+
+
