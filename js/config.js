@@ -86,7 +86,7 @@ const APPS = [
     icon: null,
     iconFallback: "📖",
     color: "#59c2fc",
-    categories: ["general", "espaces-verts", "mhl","sous-traitance", "multi-service"],
+    categories: ["general", "espaces-verts", "mhl","sous-traitance", "multi-service", "parfumerie"],
     description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
   },
     {
