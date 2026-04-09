@@ -87,7 +87,7 @@ const APPS = [
     iconFallback: "📖",
     color: "#59c2fc",
     categories: ["general", "espaces-verts", "mhl","sous-traitance", "multi-service", "parfumerie"],
-    description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
+    description: "Gestion de liste client, adresse, téléphone, mail & travaux réalisés"
   },
     {
     id: "energie_pile",
@@ -97,7 +97,7 @@ const APPS = [
     iconFallback: "🔋",
     color: "#51e751",
     categories: ["general", "espaces-verts", "mhl"],
-    description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
+    description: "Gestion du parque de piles par appareils & par secteur"
   }
 ];
 
