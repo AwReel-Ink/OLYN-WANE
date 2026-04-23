@@ -98,6 +98,16 @@ const APPS = [
     color: "#51e751",
     categories: ["general", "espaces-verts", "mhl"],
     description: "Gestion du parque de piles par appareils & par secteur"
+  },
+  {
+    id: "mesurepro",
+    name: "MesurePro",
+    url: "https://awreel-ink.github.io/MesurePro/",
+    icon: null,
+    iconFallback: "📏",
+    color: "#29930B",
+    categories: ["general", "espaces-verts", "sous-traitance", "multi-service"],
+    description: "Plusieurs outils de mesure qui peuvent être utile en dépannage. "
   }
 ];
 
