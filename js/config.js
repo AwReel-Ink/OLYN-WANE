@@ -97,7 +97,17 @@ const APPS = [
     iconFallback: "🔋",
     color: "#51e751",
     categories: ["general", "espaces-verts", "mhl"],
-    description: "Gestion du parque de piles par appareils & par secteur"
+    description: "Gestion du parc de piles par appareils & par secteur"
+  },
+  {
+    id: "dessnotes",
+    name: "DessNotes",
+    url: "https://awreel-ink.github.io/DessNotes/",
+    icon: null,
+    iconFallback: "🎨",
+    color: "#71AAB7",
+    categories: ["general", "espaces-verts", "multi-service"],
+    description: "Editeur d'image basique pour prise de note sur image, gestion des calques, pinceau, règle, gomme, texte, prise en charge des formats heif, heic, png, jpg, webp ... "
   },
   {
     id: "mesurepro",
