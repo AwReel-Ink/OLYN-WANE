@@ -116,7 +116,7 @@ const APPS = [
     icon: null,
     iconFallback: "📏",
     color: "#29930B",
-    categories: ["general", "espaces-verts", "sous-traitance", "multi-service"],
+    categories: ["general", "espaces-verts", "sous-traitance", "multi-service", "parfumerie"],
     description: "Plusieurs outils de mesure qui peuvent être utile en dépannage. "
   }
 ];
