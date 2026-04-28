@@ -110,6 +110,16 @@ const APPS = [
     description: "Editeur d'image basique pour prise de note sur image, gestion des calques, pinceau, règle, gomme, texte, prise en charge des formats heif, heic, png, jpg, webp ... "
   },
   {
+    id: "laoupa",
+    name: "LAOUPA",
+    url: "https://awreel-ink.github.io/LAOUPA/",
+    icon: null,
+    iconFallback: "📝",
+    color: "#782B54",
+    categories: ["general", "espaces-verts", "sous-traitance", "logistique", "cuisine", "mhl", "parfumerie", "multi-service", "administratif",],
+    description: "Gestion RDV, absences, evenements des travailleurs, avec historique limité."
+  },
+  {
     id: "mesurepro",
     name: "MesurePro",
     url: "https://awreel-ink.github.io/MesurePro/",
