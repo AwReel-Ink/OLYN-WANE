@@ -30,7 +30,7 @@ const DOM = {
 // ===========================================================
 async function init() {
   document.getElementById('hub-title').textContent    = HUB_CONFIG.name;
-  document.getElementById('hub-subtitle').innerHTML    = HUB_CONFIG.subtitle + '<br><span id="hub-version">Version 1.0.5 — ©2026 LEROY Aurélien — Tous Droits Réservés</span>';
+  document.getElementById('hub-subtitle').innerHTML    = HUB_CONFIG.subtitle + '<br><span id="hub-version">Version 1.0.6 — ©2026 LEROY Aurélien — Tous Droits Réservés</span>';
   document.getElementById('tabs-max').textContent     = HUB_CONFIG.maxTabs;
 
   buildCategories();
