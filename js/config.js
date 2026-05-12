@@ -120,6 +120,16 @@ const APPS = [
     description: "Gestion RDV, absences, evenements des travailleurs, avec historique limité."
   },
   {
+    id: "procro",
+    name: "ProCro",
+    url: "https://awreel-ink.github.io/ProCro/",
+    icon: null,
+    iconFallback: "✖️",
+    color: "#2B0057",
+    categories: ["general", "espaces-verts", "sous-traitance", "logistique", "cuisine", "mhl", "parfumerie", "multi-service", "administratif",],
+    description: "Calcule de produit en croix, sauvegarde de résultat et comparaison 2 produits / 4 valeurs."
+  },
+  {
     id: "mesurepro",
     name: "MesurePro",
     url: "https://awreel-ink.github.io/MesurePro/",
