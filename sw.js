@@ -4,7 +4,7 @@
 //  Les apps externes gèrent leur propre cache
 // ============================================================
 
-const CACHE_NAME = 'OLYN-WANE-V1.0.6';
+const CACHE_NAME = 'OLYN-WANE-V1.0.7';
 
 const ASSETS_TO_CACHE = [
   './',
