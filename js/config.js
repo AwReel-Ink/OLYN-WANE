@@ -130,6 +130,16 @@ const APPS = [
     description: "Calcule de produit en croix, sauvegarde de résultat et comparaison 2 produits / 4 valeurs."
   },
   {
+    id: "su-ma-tra",
+    name: "Su-Ma-Tra",
+    url: "https://awreel-ink.github.io/Su-Ma-Tra/",
+    icon: null,
+    iconFallback: "✖️",
+    color: "#21AA28",
+    categories: ["general", "espaces-verts", "sous-traitance", "logistique", "cuisine", "mhl", "parfumerie", "multi-service", "administratif",],
+    description: "Gestion des machines et taches réalisées par les travailleurs et suivi dans le temps. Avec Export en fichier Excel par travailleur."
+  },
+  {
     id: "mesurepro",
     name: "MesurePro",
     url: "https://awreel-ink.github.io/MesurePro/",
