@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-08T21:59:00.431Z",
+  "updatedAt": "2026-11-08T22:02:12.498Z",
   "categories": [
     {
       "id": "general",
@@ -272,6 +272,22 @@
         "cuisine",
         "mhl",
         "parfumerie",
+        "multi-service"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "affivi",
+      "name": "AFFIVI",
+      "description": "Compteur de vitesse avec calibration",
+      "url": "https://awreel-ink.github.io/AFFIVI/",
+      "repo": "AFFIVI",
+      "icon": "https://awreel-ink.github.io/AFFIVI/icons/icon-192.png",
+      "iconFallback": "🔧",
+      "color": "#0a0a0f",
+      "categories": [
+        "espaces-verts",
+        "mhl",
         "multi-service"
       ],
       "openMode": "inside"
