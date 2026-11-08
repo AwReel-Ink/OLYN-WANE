@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-08T21:26:48.193Z",
+  "updatedAt": "2026-11-08T21:59:00.431Z",
   "categories": [
     {
       "id": "general",
@@ -252,6 +252,27 @@
         "sous-traitance",
         "multi-service",
         "parfumerie"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "scanope",
+      "name": "Scanopé",
+      "description": "Scanner des tags nfc pour valider les entrer et sortie",
+      "url": "https://awreel-ink.github.io/Scanope/",
+      "repo": "Scanope",
+      "icon": "https://awreel-ink.github.io/Scanope/icon-192.png",
+      "iconFallback": "🔧",
+      "color": "#1e5e3a",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "logistique",
+        "cuisine",
+        "mhl",
+        "parfumerie",
+        "multi-service"
       ],
       "openMode": "inside"
     }
