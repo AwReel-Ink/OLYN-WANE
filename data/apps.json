@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "updatedAt": "2026-11-08T21:26:48.193Z",
+  "categories": [
+    {
+      "id": "general",
+      "label": "Général",
+      "icon": "🌐",
+      "color": "#6c757d"
+    },
+    {
+      "id": "espaces-verts",
+      "label": "Espaces Verts",
+      "icon": "🌿",
+      "color": "#2d6a4f"
+    },
+    {
+      "id": "sous-traitance",
+      "label": "Sous-traitance",
+      "icon": "🔧",
+      "color": "#e76f51"
+    },
+    {
+      "id": "logistique",
+      "label": "Logistique",
+      "icon": "📦",
+      "color": "#457b9d"
+    },
+    {
+      "id": "cuisine",
+      "label": "Cuisine",
+      "icon": "🍽️",
+      "color": "#e9c46a"
+    },
+    {
+      "id": "mhl",
+      "label": "MHL",
+      "icon": "🏭",
+      "color": "#9b5de5"
+    },
+    {
+      "id": "parfumerie",
+      "label": "Parfumerie",
+      "icon": "🌸",
+      "color": "#f72585"
+    },
+    {
+      "id": "multi-service",
+      "label": "Multi-service",
+      "icon": "⚙️",
+      "color": "#4cc9f0"
+    },
+    {
+      "id": "administratif",
+      "label": "Administratif",
+      "icon": "📋",
+      "color": "#f4a261"
+    }
+  ],
+  "apps": [
+    {
+      "id": "hetra",
+      "name": "HeTra (Heures Travaillées)",
+      "description": "Permet de définir des heures d'arrivées et de départ sur plusieurs période, ainsi que le calcule du temps cumulé",
+      "url": "https://awreel-ink.github.io/LAPPHetra/",
+      "repo": "LAPPHetra",
+      "icon": "",
+      "iconFallback": "⏱️",
+      "color": "#2d6a4f",
+      "categories": [
+        "espaces-verts",
+        "mhl",
+        "multi-service",
+        "general"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "lappev3.0",
+      "name": "LAPP EV 3.0",
+      "description": "Gestion de zone de chantier Espaces Verts, Édition/Modification de zone de chantier et fiche client",
+      "url": "https://awreel-ink.github.io/LAPPEV3.0/",
+      "repo": "LAPPEV3.0",
+      "icon": "",
+      "iconFallback": "🥬",
+      "color": "#606c38",
+      "categories": [
+        "espaces-verts"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "meszur",
+      "name": "MesZeuR",
+      "description": "Gérez vos heures de travail simplement, par emploi/société.",
+      "url": "https://awreel-ink.github.io/MesZeuR/",
+      "repo": "MesZeuR",
+      "icon": "",
+      "iconFallback": "📊",
+      "color": "#457b9d",
+      "categories": [
+        "general",
+        "administratif"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "vi-turette",
+      "name": "VI-Turette",
+      "description": "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis",
+      "url": "https://awreel-ink.github.io/VI-Turette/",
+      "repo": "VI-Turette",
+      "icon": "",
+      "iconFallback": "🚗",
+      "color": "#e76f51",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "mhl"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "liconote",
+      "name": "LiCoNote",
+      "description": "Gestion de liste client, adresse, téléphone, mail & travaux réalisés",
+      "url": "https://awreel-ink.github.io/Liconote/",
+      "repo": "Liconote",
+      "icon": "",
+      "iconFallback": "📖",
+      "color": "#59c2fc",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "mhl",
+        "sous-traitance",
+        "multi-service",
+        "parfumerie"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "energie_pile",
+      "name": "Energie_Pile",
+      "description": "Gestion du parc de piles par appareils & par secteur",
+      "url": "https://awreel-ink.github.io/Energie_Pile/",
+      "repo": "Energie_Pile",
+      "icon": "",
+      "iconFallback": "🔋",
+      "color": "#51e751",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "mhl"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "dessnotes",
+      "name": "DessNotes",
+      "description": "Editeur d'image basique pour prise de note sur image, gestion des calques, pinceau, règle, gomme, texte, prise en charge des formats heif, heic, png, jpg, webp ...",
+      "url": "https://awreel-ink.github.io/DessNotes/",
+      "repo": "DessNotes",
+      "icon": "",
+      "iconFallback": "🎨",
+      "color": "#71AAB7",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "multi-service"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "laoupa",
+      "name": "LAOUPA",
+      "description": "Gestion RDV, absences, evenements des travailleurs, avec historique limité.",
+      "url": "https://awreel-ink.github.io/LAOUPA/",
+      "repo": "LAOUPA",
+      "icon": "",
+      "iconFallback": "📝",
+      "color": "#782B54",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "logistique",
+        "cuisine",
+        "mhl",
+        "parfumerie",
+        "multi-service",
+        "administratif"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "procro",
+      "name": "ProCro",
+      "description": "Calcule de produit en croix, sauvegarde de résultat et comparaison 2 produits / 4 valeurs.",
+      "url": "https://awreel-ink.github.io/ProCro/",
+      "repo": "ProCro",
+      "icon": "",
+      "iconFallback": "✖️",
+      "color": "#2B0057",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "logistique",
+        "cuisine",
+        "mhl",
+        "parfumerie",
+        "multi-service",
+        "administratif"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "su-ma-tra",
+      "name": "Su-Ma-Tra",
+      "description": "Gestion des machines et taches réalisées par les travailleurs et suivi dans le temps. Avec Export en fichier Excel par travailleur.",
+      "url": "https://awreel-ink.github.io/Su-Ma-Tra/",
+      "repo": "Su-Ma-Tra",
+      "icon": "",
+      "iconFallback": "✖️",
+      "color": "#21AA28",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "logistique",
+        "cuisine",
+        "mhl",
+        "parfumerie",
+        "multi-service",
+        "administratif"
+      ],
+      "openMode": "inside"
+    },
+    {
+      "id": "mesurepro",
+      "name": "MesurePro",
+      "description": "Plusieurs outils de mesure qui peuvent être utile en dépannage.",
+      "url": "https://awreel-ink.github.io/MesurePro/",
+      "repo": "MesurePro",
+      "icon": "",
+      "iconFallback": "📏",
+      "color": "#29930B",
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "multi-service",
+        "parfumerie"
+      ],
+      "openMode": "inside"
+    }
+  ]
+}

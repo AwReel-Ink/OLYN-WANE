@@ -1,154 +1,31 @@
 // ============================================================
-//  CONFIG.JS — Fichier de configuration central du Hub
-//  Pour ajouter une application : ajouter un objet dans APPS
-//  Pour ajouter une catégorie  : ajouter dans CATEGORIES
+//  CONFIG.JS — Réglages fixes d'OLYN-WANE
+//
+//  La liste des applications et des secteurs n'est plus ici :
+//  elle est dans data/apps.json, modifié par l'onglet « Gérer ».
+//
+//  Si tu modifies le code (HTML, CSS, JS), change seulement
+//  le numéro de version ci-dessous pour t'y retrouver.
+//  Les appareils récupèrent la nouvelle version tout seuls.
 // ============================================================
 
-const HUB_CONFIG = {
-  name: "OLYN-WANE",
-  subtitle: "Accès rapide à vos applications",
-  maxTabs: 5,
-  version: "1.0.0"
+export const HUB = {
+  name: 'OLYN-WANE',
+  subtitle: 'Accès rapide à vos applications',
+  version: '1.1.0',
+  author: '©2026 LEROY Aurélien — Tous Droits Réservés',
 };
 
-// --- CATÉGORIES -------------------------------------------
-// id        : identifiant unique (sans espace, sans accent)
-// label     : nom affiché
-// icon      : emoji ou caractère
-// color     : couleur de l'étiquette
-// ----------------------------------------------------------
-const CATEGORIES = [
-  { id: "general",         label: "Général",          icon: "🌐", color: "#6c757d" },
-  { id: "espaces-verts",   label: "Espaces Verts",    icon: "🌿", color: "#2d6a4f" },
-  { id: "sous-traitance",  label: "Sous-traitance",   icon: "🔧", color: "#e76f51" },
-  { id: "logistique",      label: "Logistique",       icon: "📦", color: "#457b9d" },
-  { id: "cuisine",         label: "Cuisine",          icon: "🍽️", color: "#e9c46a" },
-  { id: "mhl",             label: "MHL",              icon: "🏭", color: "#9b5de5" },
-  { id: "parfumerie",      label: "Parfumerie",       icon: "🌸", color: "#f72585" },
-  { id: "multi-service",   label: "Multi-service",    icon: "⚙️", color: "#4cc9f0" },
-  { id: "administratif",   label: "Administratif",    icon: "📋", color: "#f4a261" }
-];
+export const OWNER = 'awreel-ink';           // le compte GitHub
+export const REPO = 'olyn-wane';             // le dépôt d'OLYN-WANE
+export const BRANCH = 'main';                // la branche publiée
+export const DATA_PATH = 'data/apps.json';   // le fichier des applis et secteurs
+export const PAGES_BASE = `https://${OWNER}.github.io/`;
 
-// --- APPLICATIONS -----------------------------------------
-// id          : identifiant unique
-// name        : nom affiché sur la carte et l'onglet
-// url         : URL GitHub Pages de l'application
-// icon        : emoji représentatif
-// color       : couleur accent de la carte
-// categories  : tableau d'ids de catégories (voir ci-dessus)
-// description : texte court affiché sous le nom
-// ----------------------------------------------------------
-const APPS = [
-  {
-    id: "hetra",
-    name: "HeTra (Heures Travaillées)",
-    url: "https://awreel-ink.github.io/LAPPHetra/",
-    icon: null,
-    iconFallback: "⏱️",
-    color: "#2d6a4f",
-    categories: ["espaces-verts", "mhl", "multi-service", "general"],
-    description: "Permet de définir des heures d'arrivées et de départ sur plusieurs période, ainsi que le calcule du temps cumulé"
-  },
-  {
-    id: "lappev3.0",
-    name: "LAPP EV 3.0",
-    url: "https://awreel-ink.github.io/LAPPEV3.0/",
-    icon: null,
-    iconFallback: "🥬",
-    color: "#606c38",
-    categories: ["espaces-verts"],
-    description: "Gestion de zone de chantier Espaces Verts, Édition/Modification de zone de chantier et fiche client"
-  },
-  {
-    id: "meszur",
-    name: "MesZeuR",
-    url: "https://awreel-ink.github.io/MesZeuR/",
-    icon: null,
-    iconFallback: "📊",
-    color: "#457b9d",
-    categories: ["general", "administratif"],
-    description: "Gérez vos heures de travail simplement, par emploi/société."
-  },
-  {
-    id: "vi-turette",
-    name: "VI-Turette",
-    url: "https://awreel-ink.github.io/VI-Turette/",
-    icon: null,
-    iconFallback: "🚗",
-    color: "#e76f51",
-    categories: ["general", "espaces-verts", "mhl"],
-    description: "Calcule des Temps de trajet réaliste — Voiture & Voiturette Sans Permis"
-  },
-  {
-    id: "liconote",
-    name: "LiCoNote",
-    url: "https://awreel-ink.github.io/Liconote/",
-    icon: null,
-    iconFallback: "📖",
-    color: "#59c2fc",
-    categories: ["general", "espaces-verts", "mhl","sous-traitance", "multi-service", "parfumerie"],
-    description: "Gestion de liste client, adresse, téléphone, mail & travaux réalisés"
-  },
-    {
-    id: "energie_pile",
-    name: "Energie_Pile",
-    url: "https://awreel-ink.github.io/Energie_Pile/",
-    icon: null,
-    iconFallback: "🔋",
-    color: "#51e751",
-    categories: ["general", "espaces-verts", "mhl"],
-    description: "Gestion du parc de piles par appareils & par secteur"
-  },
-  {
-    id: "dessnotes",
-    name: "DessNotes",
-    url: "https://awreel-ink.github.io/DessNotes/",
-    icon: null,
-    iconFallback: "🎨",
-    color: "#71AAB7",
-    categories: ["general", "espaces-verts", "multi-service"],
-    description: "Editeur d'image basique pour prise de note sur image, gestion des calques, pinceau, règle, gomme, texte, prise en charge des formats heif, heic, png, jpg, webp ... "
-  },
-  {
-    id: "laoupa",
-    name: "LAOUPA",
-    url: "https://awreel-ink.github.io/LAOUPA/",
-    icon: null,
-    iconFallback: "📝",
-    color: "#782B54",
-    categories: ["general", "espaces-verts", "sous-traitance", "logistique", "cuisine", "mhl", "parfumerie", "multi-service", "administratif",],
-    description: "Gestion RDV, absences, evenements des travailleurs, avec historique limité."
-  },
-  {
-    id: "procro",
-    name: "ProCro",
-    url: "https://awreel-ink.github.io/ProCro/",
-    icon: null,
-    iconFallback: "✖️",
-    color: "#2B0057",
-    categories: ["general", "espaces-verts", "sous-traitance", "logistique", "cuisine", "mhl", "parfumerie", "multi-service", "administratif",],
-    description: "Calcule de produit en croix, sauvegarde de résultat et comparaison 2 produits / 4 valeurs."
-  },
-  {
-    id: "su-ma-tra",
-    name: "Su-Ma-Tra",
-    url: "https://awreel-ink.github.io/Su-Ma-Tra/",
-    icon: null,
-    iconFallback: "✖️",
-    color: "#21AA28",
-    categories: ["general", "espaces-verts", "sous-traitance", "logistique", "cuisine", "mhl", "parfumerie", "multi-service", "administratif",],
-    description: "Gestion des machines et taches réalisées par les travailleurs et suivi dans le temps. Avec Export en fichier Excel par travailleur."
-  },
-  {
-    id: "mesurepro",
-    name: "MesurePro",
-    url: "https://awreel-ink.github.io/MesurePro/",
-    icon: null,
-    iconFallback: "📏",
-    color: "#29930B",
-    categories: ["general", "espaces-verts", "sous-traitance", "multi-service", "parfumerie"],
-    description: "Plusieurs outils de mesure qui peuvent être utile en dépannage. "
-  }
-];
+// Dépôts jamais proposés dans « Ajouter une application »
+export const HIDDEN_REPOS = ['olyn-wane', 'meszapply'];
 
-
+// Applications ouvertes en même temps (réglable par appareil)
+export const TABS_DEFAULT = 5;
+export const TABS_MIN = 1;
+export const TABS_MAX = 15;

@@ -6,9 +6,13 @@
   <meta name="theme-color" content="#1a1a2e" />
   <meta name="description" content="Hub centralisé des applications ESAT" />
   <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="OLYN-WANE" />
   <title>OLYN-WANE</title>
   <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -23,14 +27,23 @@
       <div id="header-left">
         <span id="hub-icon">🧩</span>
         <div>
-            <h1 id="hub-title">OLYN-WANE</h1>
-            <p id="hub-subtitle">Accès rapide à vos applications</p>
-            </div>
+          <h1 id="hub-title">OLYN-WANE</h1>
+          <p id="hub-subtitle">Accès rapide à vos applications</p>
+        </div>
       </div>
       <div id="header-right">
-        <button id="btn-home" title="Accueil" class="header-btn active">🏠</button>
+        <button id="btn-refresh" type="button" title="Actualiser la liste" aria-label="Actualiser la liste" class="header-btn"></button>
+        <button id="btn-settings" type="button" title="Paramètres" aria-label="Paramètres" class="header-btn">⚙️</button>
       </div>
     </header>
+
+    <!-- APPLICATIONS / GÉRER (visible seulement avec un jeton GitHub) -->
+    <nav id="view-switch" role="tablist" hidden>
+      <button class="view-btn active" type="button" role="tab" aria-selected="true" data-view="apps">🧩 Applications</button>
+      <button class="view-btn" type="button" role="tab" aria-selected="false" data-view="manage">🛠️ Gérer</button>
+    </nav>
+
+    <p id="status-line" hidden>Hors ligne : dernière version connue de la liste.</p>
 
     <!-- CATÉGORIES -->
     <nav id="categories-nav"></nav>
@@ -39,6 +52,9 @@
     <main id="apps-grid">
       <!-- Générée dynamiquement par JS -->
     </main>
+
+    <!-- GÉRER -->
+    <main id="manage-view" class="scroll-area" hidden></main>
 
   </div><!-- /home-screen -->
 
@@ -50,7 +66,7 @@
 
     <!-- BARRE D'ONGLETS -->
     <div id="tabs-bar">
-      <button id="tab-home-btn" title="Retour à l'accueil">🏠</button>
+      <button id="tab-home-btn" type="button" title="Retour à l'accueil">🏠</button>
       <div id="tabs-list">
         <!-- Onglets générés dynamiquement -->
       </div>
@@ -72,28 +88,17 @@
   ====================================================== -->
   <div id="modal-overlay" class="hidden">
     <div id="modal-box">
-      <p id="modal-message">⚠️ Vous avez atteint le maximum de 5 applications ouvertes.<br>Fermez un onglet pour en ouvrir un nouveau.</p>
-      <button id="modal-close">Compris</button>
+      <p id="modal-message"></p>
+      <button id="modal-close" type="button">Compris</button>
     </div>
   </div>
 
+  <!-- Panneaux (Paramètres, formulaires), messages, enregistrement en cours -->
+  <div id="modal-root"></div>
+  <div id="toasts" aria-live="polite"></div>
+  <div class="saving-indicator" aria-hidden="true"></div>
 
-  <!-- ======================================================
-       SCRIPTS
-  ====================================================== -->
-  <script src="js/config.js"></script>
-  <script src="js/icon-loader.js"></script>
-  <script src="js/app.js"></script>
-
-    <script>
-    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-        window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(r  => console.log('SW OK', r.scope))
-            .catch(e => console.warn('SW erreur:', e));
-        });
-    }
-    </script>
+  <script type="module" src="js/app.js"></script>
 
 </body>
 </html>
