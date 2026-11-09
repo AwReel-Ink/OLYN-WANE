@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-08T22:02:12.498Z",
+  "updatedAt": "2026-11-09T17:26:14.369Z",
   "categories": [
     {
       "id": "general",
@@ -290,6 +290,18 @@
         "mhl",
         "multi-service"
       ],
+      "openMode": "inside"
+    },
+    {
+      "id": "hoplafi",
+      "name": "Hoplàfi !",
+      "description": "Partage de fichier entre appareil.",
+      "url": "https://awreel-ink.github.io/Hoplafi/",
+      "repo": "Hoplafi",
+      "icon": "https://awreel-ink.github.io/Hoplafi/icons/icon-192.png",
+      "iconFallback": "🔧",
+      "color": "#1d4ed8",
+      "categories": [],
       "openMode": "inside"
     }
   ]
