@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-09T17:26:14.369Z",
+  "updatedAt": "2026-11-09T17:27:18.772Z",
   "categories": [
     {
       "id": "general",
@@ -299,9 +299,19 @@
       "url": "https://awreel-ink.github.io/Hoplafi/",
       "repo": "Hoplafi",
       "icon": "https://awreel-ink.github.io/Hoplafi/icons/icon-192.png",
-      "iconFallback": "🔧",
+      "iconFallback": "🗂️",
       "color": "#1d4ed8",
-      "categories": [],
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "logistique",
+        "cuisine",
+        "mhl",
+        "parfumerie",
+        "multi-service",
+        "administratif"
+      ],
       "openMode": "inside"
     }
   ]
