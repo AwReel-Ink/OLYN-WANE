@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-25T22:18:30.353Z",
+  "updatedAt": "2026-11-25T22:18:54.930Z",
   "categories": [
     {
       "id": "general",
@@ -321,7 +321,17 @@
       "icon": "https://awreel-ink.github.io/Suidepro/icons/icon-192.png",
       "iconFallback": "🔧",
       "color": "#1f2937",
-      "categories": [],
+      "categories": [
+        "general",
+        "espaces-verts",
+        "sous-traitance",
+        "logistique",
+        "cuisine",
+        "mhl",
+        "parfumerie",
+        "multi-service",
+        "administratif"
+      ],
       "openMode": "inside"
     }
   ]
