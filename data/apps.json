@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-25T22:17:58.346Z",
+  "updatedAt": "2026-11-25T22:18:10.449Z",
   "categories": [
     {
       "id": "general",
@@ -307,6 +307,18 @@
       "icon": "https://awreel-ink.github.io/Fuseau3D/icon-192.png",
       "iconFallback": "🔧",
       "color": "#26303b",
+      "categories": [],
+      "openMode": "inside"
+    },
+    {
+      "id": "suidepro",
+      "name": "Suidepro — Suivi de production",
+      "description": "Suivi de Production via To Do List",
+      "url": "https://awreel-ink.github.io/Suidepro/",
+      "repo": "Suidepro",
+      "icon": "https://awreel-ink.github.io/Suidepro/icons/icon-192.png",
+      "iconFallback": "🔧",
+      "color": "#1f2937",
       "categories": [],
       "openMode": "inside"
     }
