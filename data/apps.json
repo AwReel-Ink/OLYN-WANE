@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-25T22:18:10.449Z",
+  "updatedAt": "2026-11-25T22:18:30.353Z",
   "categories": [
     {
       "id": "general",
@@ -307,7 +307,9 @@
       "icon": "https://awreel-ink.github.io/Fuseau3D/icon-192.png",
       "iconFallback": "🔧",
       "color": "#26303b",
-      "categories": [],
+      "categories": [
+        "general"
+      ],
       "openMode": "inside"
     },
     {
