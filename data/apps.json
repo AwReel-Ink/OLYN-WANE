@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-11-25T22:17:39.759Z",
+  "updatedAt": "2026-11-25T22:17:58.346Z",
   "categories": [
     {
       "id": "general",
@@ -296,6 +296,18 @@
         "multi-service",
         "administratif"
       ],
+      "openMode": "inside"
+    },
+    {
+      "id": "fuseau3d",
+      "name": "Fuseau — CAO légère",
+      "description": "Application de création 3D simple et rapide.",
+      "url": "https://awreel-ink.github.io/Fuseau3D/",
+      "repo": "Fuseau3D",
+      "icon": "https://awreel-ink.github.io/Fuseau3D/icon-192.png",
+      "iconFallback": "🔧",
+      "color": "#26303b",
+      "categories": [],
       "openMode": "inside"
     }
   ]
